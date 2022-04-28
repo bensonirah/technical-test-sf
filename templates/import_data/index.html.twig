@@ -1,0 +1,18 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Hello ImportDataController!{% endblock %}
+
+{% block body %}
+    <div class="container">
+        <h1>Import file</h1>
+        {# templates/task/new.html.twig #}
+        {% for message in app.flashes('success') %}
+            <div class="alert alert-success">
+                {{ message }}
+            </div>
+        {% endfor %}
+        {{ form_start(form, {'action': path('app_import_data'), 'method': 'POST'}) }}
+        {{ form(form) }}
+        {{ form_end(form) }}
+    </div>
+{% endblock %}
