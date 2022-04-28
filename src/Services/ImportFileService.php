@@ -12,6 +12,7 @@ use Symfony\Component\String\Slugger\SluggerInterface;
 
 class ImportFileService
 {
+    const ALLOWED_EXTENSION = ['xlsx'];
     /**
      * @var SluggerInterface
      */
@@ -39,6 +40,9 @@ class ImportFileService
      */
     public function importFile(UploadedFile $uploadedFile): array
     {
+        if (!in_array($uploadedFile->getClientOriginalExtension(), self::ALLOWED_EXTENSION)) {
+            throw new \InvalidArgumentException("Format de fichier non prise en charge");
+        }
         $originalFilename = pathinfo($uploadedFile->getClientOriginalName(), PATHINFO_FILENAME);
         $safeFilename = $this->slugger->slug($originalFilename);
         $newFilename = $safeFilename . '-' . uniqid() . '.' . $uploadedFile->getClientOriginalExtension();
